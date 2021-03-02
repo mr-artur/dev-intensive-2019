@@ -1,17 +1,17 @@
 package ru.skillbranch.devintensive.models
 
+import ru.skillbranch.devintensive.extensions.humanizeDiff
 import java.util.*
 
 class ImageMessage(
-        id: String,
-        from: User?,
-        chat: Chat,
-        isIncoming: Boolean,
-        date: Date,
-        val imageUrl: String
-) : BaseMessage(id, from, chat, isIncoming, date) {
+    id: String,
+    from: User?,
+    chat: Chat,
+    isIncoming: Boolean = false,
+    date: Date = Date(),
+    var image: String?
 
-    override fun formatMessage(): String = """
-        Пользователь ${from?.firstName ?: "(неизвестен)"} ${if (isIncoming) "получил" else "отправил"} изображение с id=$id!
-    """.trimIndent()
+) : BaseMessage(id, from, chat, isIncoming, date) {
+    override fun formatMessage(): String = "id:$id ${from?.firstName} " +
+            "${if (isIncoming) "получил" else "отправил"} изображение \"$image\" ${date.humanizeDiff()}"
 }
