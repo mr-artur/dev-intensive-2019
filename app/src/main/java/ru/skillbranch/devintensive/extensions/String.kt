@@ -11,7 +11,8 @@ fun String.truncate(limit: Int = 16): String {
     return if (meaningfulEnd) truncated.plus("...") else truncated
 }
 
-fun String.stripHtml(): String {
-    val result = trim().replace("</.*>".toRegex(), "").replace("<.*>".toRegex(), "")
-    return result.replace("\\s+".toRegex(), " ")
+fun String.stripHtml(): String{
+    val htmlRegex = Regex("(<.*?>)|(&[^ а-я]{1,4}?;)")
+    val spaceRegex = Regex(" {2,}")
+    return replace(htmlRegex, "").replace(spaceRegex, " ")
 }

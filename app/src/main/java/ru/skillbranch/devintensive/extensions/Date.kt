@@ -3,6 +3,7 @@ package ru.skillbranch.devintensive.extensions
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.Date
+import kotlin.math.abs
 
 const val SECOND = 1000L
 const val MINUTE = 60 * SECOND
@@ -27,16 +28,27 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND): Date {
     return this
 }
 
-fun Date.humanizeDiff(date: Date = Date()): String = when (val diff = this.time - date.time) {
-    in 0..1 * SECOND -> "только что"
-    in 1 * SECOND..45 * SECOND -> "несколько секунд назад"
-    in 45 * SECOND..75 * SECOND -> "минуту назад"
-    in 75 * SECOND..45 * MINUTE -> "${diff / MINUTE} минут назад"
-    in 45 * MINUTE..75 * MINUTE -> "час назад"
-    in 75 * MINUTE..22 * HOUR -> "${diff / HOUR} часов назад"
-    in 22 * HOUR..26 * HOUR -> "день назад"
-    in 26 * HOUR..360 * DAY -> "${diff / DAY} дней назад"
-    else -> "более года назад"
+fun Date.humanizeDiff(date: Date = Date()): String {
+    val dif = abs(this.time -  date.time)
+    val isPast = this.time < date.time
+
+    return when {
+        dif <= SECOND -> "только что"
+        dif <= SECOND * 45 -> getTenseForm("несколько секунд", isPast)
+        dif <= SECOND * 75 -> getTenseForm("минуту", isPast)
+        dif <= MINUTE * 45 -> getTenseForm(TimeUnits.MINUTE.plural((dif / MINUTE).toInt()), isPast)
+        dif <= MINUTE * 75 -> getTenseForm("час", isPast)
+        dif <= HOUR * 22 -> getTenseForm(TimeUnits.HOUR.plural((dif / HOUR).toInt()), isPast)
+        dif <= HOUR * 26 -> getTenseForm("день", isPast)
+        dif <= DAY * 360 -> getTenseForm(TimeUnits.DAY.plural((dif / DAY).toInt()), isPast)
+        else -> if(isPast) "более года назад" else "более чем через год"
+    }
+}
+
+fun getTenseForm(interval: String, isPast: Boolean): String {
+    val prefix = if (isPast) "" else "через"
+    val postfix = if (isPast) "назад" else ""
+    return "$prefix $interval $postfix".trim()
 }
 
 enum class TimeUnits {

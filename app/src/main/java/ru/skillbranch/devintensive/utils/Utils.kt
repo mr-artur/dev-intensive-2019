@@ -36,10 +36,14 @@ object Utils {
 
         for (word in parts) {
             val result = StringBuilder()
-            for (symbol in word) {
+            var isCapitalized = false
+            for ((index, symbol) in word.withIndex()) {
+                if (index == 0 && symbol.isUpperCase()) {
+                    isCapitalized = true
+                }
                 result.append(toEng(symbol.toLowerCase()))
             }
-            resultList.add(result.toString().capitalize())
+            resultList.add(if (isCapitalized) result.toString().capitalize() else result.toString())
         }
         return resultList.joinToString(separator = divider)
     }
