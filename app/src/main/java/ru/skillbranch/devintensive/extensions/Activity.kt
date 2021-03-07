@@ -9,9 +9,9 @@ import ru.skillbranch.devintensive.R
 fun Activity.getRootView() : View = findViewById(R.id.content)
 
 fun Activity.hideKeyboard() {
-    val windowToken = getRootView().windowToken
     val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+    val targetView = currentFocus ?: View(this)
+    inputMethodManager.hideSoftInputFromWindow(targetView.windowToken, 0)
 }
 
 fun Activity.isKeyboardOpen() : Boolean {
