@@ -59,8 +59,8 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
                 var isValid = true
                 for (symbol in answer) {
                     if (symbol.isDigit()) {
-                        isValid = true
-                        break;
+                        isValid = false
+                        break
                     }
                 }
 

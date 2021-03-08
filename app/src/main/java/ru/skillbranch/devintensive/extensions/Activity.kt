@@ -6,7 +6,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import ru.skillbranch.devintensive.R
 
-fun Activity.getRootView() : View = findViewById(R.id.content)
+fun Activity.getRootView() : View? = findViewById(R.id.content)
 
 fun Activity.hideKeyboard() {
     val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -16,8 +16,8 @@ fun Activity.hideKeyboard() {
 
 fun Activity.isKeyboardOpen() : Boolean {
     val visibleBounds = Rect()
-    getRootView().getWindowVisibleDisplayFrame(visibleBounds)
-    val heightDiff = getRootView().height - visibleBounds.height()
+    getRootView()?.getWindowVisibleDisplayFrame(visibleBounds)
+    val heightDiff = getRootView()?.height ?: 0  - visibleBounds.height()
     return heightDiff > 0 //https://proandroiddev.com/how-to-detect-if-the-android-keyboard-is-open-269b255a90f5
 }
 
