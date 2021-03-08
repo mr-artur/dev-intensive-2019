@@ -15,11 +15,19 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
 
         } else if (question.answers.contains(answer.toLowerCase())) {
             question = question.nextQuestion()
-            "Отлично - это правильный ответ!\n${question.question}" to status.color
+            "Отлично - ты справился\n${question.question}" to status.color
+
+        } else if (question == Question.IDLE) {
+            question.question to status.color
 
         } else {
             status = status.nextStatus()
-            "Это неправильный ответ\n${question.question}" to status.color
+            if (status == Status.NORMAL) {
+                question = Question.NAME
+                "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
+            } else {
+                "Это неправильный ответ\n${question.question}" to status.color
+            }
         }
     }
 
@@ -37,7 +45,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
     }
 
     enum class Question(val question: String, val answers: List<String>) {
-        NAME("Как меня зовут?", listOf("Бендер", "bender")) {
+        NAME("Как меня зовут?", listOf("бендер", "bender")) {
 
             override fun checkIfAnswerValid(answer: String): Pair<Boolean, String> {
                 return (answer.firstOrNull()?.isUpperCase() ?: false) to "Имя должно начинаться с заглавной буквы"
