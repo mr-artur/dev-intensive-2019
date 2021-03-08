@@ -55,7 +55,7 @@
                 android:src="@drawable/ic_send_black_24dp"
                 android:tint="@color/color_gray_light"
                 android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/spacing_normal_16"
+                android:layout_margin="@dimen/spacing_normal_16"
         />
 
     </LinearLayout>
