@@ -10,7 +10,7 @@
     <TextView
             android:id="@+id/tv_text"
             android:gravity="center"
-            android:textSize="@dimen/font_large_24"
+            android:textSize="@dimen/font_normal_16"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:text="Hello World!"
@@ -54,8 +54,6 @@
                 android:layout_height="@dimen/spacing_large_24"
                 android:src="@drawable/ic_send_black_24dp"
                 android:tint="@color/color_gray_light"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/spacing_normal_16"
         />
 
     </LinearLayout>
